@@ -36,6 +36,7 @@ class Config:
     tg_bot: TgBot
 
 
+
 def load_config(path: str = None) -> Config:
     """
     This function takes an optional file path as input and returns a Config object.
@@ -52,3 +53,7 @@ def load_config(path: str = None) -> Config:
     return Config(
         tg_bot=TgBot.from_env(env),
     )
+def get_admins():
+    env = Env()
+    env.read_env()
+    return(env.str("ADMINS").strip().split(","))

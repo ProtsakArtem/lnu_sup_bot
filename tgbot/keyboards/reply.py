@@ -20,5 +20,10 @@ support_keyboard = types.ReplyKeyboardMarkup(keyboard=support_markup, resize_key
 
 #Just back markup
 
+back_keyboard = types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text='Назад ⬅️')]], resize_keyboard=True, input_field_placeholder="Сюди пишіть скаргу одним повідомленням")
 
-back_keyboard = types.ReplyKeyboardMarkup(keyboard=[types.KeyboardButton(text='Назад ⬅️')], resize_keyboard=True,input_field_placeholder="Сюди пишіть скаргу одним повідомленням")
+
+back_plus = types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text='Почати чат')], [types.KeyboardButton(text='Назад ⬅️')]], resize_keyboard=True, input_field_placeholder="Сюди пишіть скаргу одним повідомленням")
+
+#end session markup
+end_session_keyboard = types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text='Завершити діалог')]], resize_keyboard=True)
