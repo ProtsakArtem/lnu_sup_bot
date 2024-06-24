@@ -6,7 +6,9 @@ all_text = {"start_text": "",
             "zastup_info_text": "",
             "pay_req_text": "",
             "hurt_req_text": "",
-            "help_links_text": ""
+            "help_links_text": "",
+            "stud_orgs_text": "",
+            "decan_time_text": ""
             }
 
 def create_tables():
@@ -49,7 +51,7 @@ def fetch_all_text(db_path):
 
 def set_text_variables():
     data = fetch_all_text('database.db')
-    # start_text, questions_text, info_decanat_text, zastup_info_text, pay_req_text, hurt_req_text, start_text, help_links_text = data
+    # start_text, questions_text, info_decanat_text, zastup_info_text, pay_req_text, hurt_req_text, start_text, help_links_text, decan_time_text = data
     # print(start_text, help_links_text)
     for row in data:
         all_text[row[0]] = row[1]
