@@ -56,4 +56,31 @@ def load_config(path: str = None) -> Config:
 def get_admins():
     env = Env()
     env.read_env()
-    return(env.str("ADMINS").strip().split(","))
+    admins = env.list('ADMINS', [])
+    return admins
+
+# Функція для запису списку адміністраторів у .env файл
+def set_admins(admin_list):
+    with open('.env', 'r') as file:
+        lines = file.readlines()
+
+    with open('.env', 'w') as file:
+        for line in lines:
+            if line.startswith('ADMINS='):
+                file.write(f"ADMINS={','.join(admin_list)}\n")
+            else:
+                file.write(line)
+
+# Функція для додавання адміністратора
+def add_admin(admin_id):
+    admins = get_admins()
+    if admin_id not in admins:
+        admins.append(admin_id)
+        set_admins(admins)
+
+# Функція для видалення адміністратора
+def remove_admin(admin_id):
+    admins = get_admins()
+    if admin_id in admins:
+        admins.remove(admin_id)
+        set_admins(admins)

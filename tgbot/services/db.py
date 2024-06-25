@@ -171,4 +171,3 @@ def delete_session(session_name):
         if conn:
             conn.close()
 
-import sqlite3
