@@ -57,6 +57,7 @@ def get_admins():
     env = Env()
     env.read_env()
     admins = env.list('ADMINS', [])
+    print(f"ADMINS: {admins}")
     return admins
 
 # Функція для запису списку адміністраторів у .env файл

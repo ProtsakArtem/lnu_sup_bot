@@ -50,7 +50,7 @@ async def anon_chat(message: Message, bot: Bot, state: FSMContext):
 
 @user_router.message(Command(commands=["add_admin"]))
 async def handle_add_admin(message: Message, bot: Bot):
-    if message.from_user.id in get_admins():
+    if str(message.from_user.id) in get_admins():
         args = message.text.split()
         if len(args) == 2:
             admin_id = args[1]
@@ -60,7 +60,7 @@ async def handle_add_admin(message: Message, bot: Bot):
         await bot.send_message(message.from_user.id, text="Додавати адміністраторів можуть тільки адміністратори")
 @user_router.message(Command(commands=["remove_admin"]))
 async def handle_remove_admin(message: Message, bot: Bot):
-    if message.user_id in get_admins():
+    if str(message.user_id) in get_admins():
         args = message.text.split()
         if len(args) == 2:
             admin_id = args[1]
