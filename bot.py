@@ -1,5 +1,7 @@
 import asyncio
 import logging
+from aiogram.types import BotCommand
+
 
 import betterlogging as bl
 from aiogram import Bot, Dispatcher
@@ -9,10 +11,16 @@ from tgbot.config import load_config
 from tgbot.handlers import routers_list
 from tgbot.middlewares.config import ConfigMiddleware
 
-from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 
 from tgbot.services.db import create_tables, set_text_variables, all_text
 from tgbot.handlers.user import user_router
+
+
+class UserKeyBuilder(DefaultKeyBuilder):
+    def build(self, key, *parts) -> str:
+        return ":".join(map(str, (key, *parts)))
+
 def setup_logging():
     """
     Set up logging configuration for the application.
@@ -48,14 +56,14 @@ async def main():
     config = load_config(".env")
 
     bot = Bot(token=config.tg_bot.token)
-    storage = RedisStorage.from_url("redis://localhost:6379/0")
+    key_builder = UserKeyBuilder()
+    storage = RedisStorage.from_url("redis://localhost:6379/0", key_builder=key_builder)
     dp = Dispatcher(storage=storage)
 
     dp.include_router(user_router)
 
     dp.message.outer_middleware(ConfigMiddleware(config))
     dp.callback_query.outer_middleware(ConfigMiddleware(config))
-
 
     await dp.start_polling(bot)
 

@@ -12,7 +12,6 @@ from tgbot.config import get_admins, add_admin, remove_admin
 
 user_router = Router()
 
-
 class StateEndsWithFilter(BaseFilter):
     def __init__(self, suffix: str):
         self.suffix = suffix
@@ -166,6 +165,8 @@ async def in_start(message: Message, bot: Bot, state: FSMContext):
         elif message.content_type == ContentType.ANIMATION:
             await bot.send_animation(recipient_id, animation=message.animation.file_id, caption=message.caption)
         # Add other content types as needed
+
+
 
 @user_router.callback_query(F.data == "?decanat")
 async def callback_dekanat(callback: CallbackQuery, bot: Bot):
