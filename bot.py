@@ -9,6 +9,8 @@ from tgbot.config import load_config
 from tgbot.handlers import routers_list
 from tgbot.middlewares.config import ConfigMiddleware
 
+from aiogram.fsm.storage.redis import RedisStorage
+
 from tgbot.services.db import create_tables, set_text_variables, all_text
 from tgbot.handlers.user import user_router
 def setup_logging():
@@ -46,7 +48,8 @@ async def main():
     config = load_config(".env")
 
     bot = Bot(token=config.tg_bot.token)
-    dp = Dispatcher(storage=MemoryStorage())
+    storage = RedisStorage.from_url("redis://localhost:6379/0")
+    dp = Dispatcher(storage=storage)
 
     dp.include_router(user_router)
 
