@@ -4,7 +4,7 @@ from aiogram.filters import CommandStart, Command, StateFilter, BaseFilter
 from aiogram.fsm import state
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
-from tgbot.services.db import all_text, set_user_in_help_session, get_operator_id_by_session, get_user_id_by_session, delete_session, set_helper_to_session
+from tgbot.services.db import all_text, set_user_in_help_session, get_operator_id_by_session, get_user_id_by_session, delete_session, set_helper_to_session, add_user
 from tgbot.keyboards.reply import start_keyboard, support_keyboard, back_keyboard, end_session_keyboard, back_plus
 from tgbot.keyboards.inline import faq_keyboard, make_personal_session_keyboard
 from tgbot.states import fsm
@@ -25,6 +25,7 @@ class StateEndsWithFilter(BaseFilter):
 
 @user_router.message(CommandStart(), StateFilter(None))
 async def user_start(message: Message, bot: Bot):
+    add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, message.from_user.language_code)
     await bot.send_message(message.from_user.id, text=all_text["start_text"], reply_markup=start_keyboard)
 
 @user_router.message(F.text=="❓ Найчастіші питання")

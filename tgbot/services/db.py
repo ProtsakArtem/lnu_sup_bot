@@ -23,17 +23,15 @@ def create_tables():
     ''')
 
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            chat_id INTEGER PRIMARY KEY,
-            first_name VARCHAR(100),
-            last_name VARCHAR(100),
-            username VARCHAR(100),
-            language_code VARCHAR(10),
-            corrects INTEGER DEFAULT 0,
-            incorrects INTEGER DEFAULT 0,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
+            CREATE TABLE IF NOT EXISTS users (
+                chat_id INTEGER PRIMARY KEY,
+                first_name TEXT,
+                last_name TEXT,
+                username TEXT,
+                language_code TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS sup_sessions (
@@ -44,6 +42,20 @@ def create_tables():
             session_id VARCHAR(150)
         )
     ''')
+
+
+    conn.commit()
+    conn.close()
+
+
+def add_user(chat_id, first_name, last_name, username, language_code):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT OR REPLACE INTO users (chat_id, first_name, last_name, username, language_code)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (chat_id, first_name, last_name, username, language_code))
 
     conn.commit()
     conn.close()
